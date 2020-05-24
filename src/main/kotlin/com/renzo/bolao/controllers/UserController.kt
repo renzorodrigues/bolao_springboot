@@ -17,7 +17,7 @@ class UserController @Autowired constructor(private val service: UserService) {
         return ResponseEntity.ok().body(obj)
     }
 
-    @PostMapping("/user/")
+    @PostMapping("/user")
     fun insertUser(@RequestBody obj: User): ResponseEntity<Void> {
         val obj = service.insertUser(obj)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.id).toUri()
@@ -29,5 +29,17 @@ class UserController @Autowired constructor(private val service: UserService) {
         obj.id = id
         val obj = service.updateUser(obj)
         return ResponseEntity.noContent().build()
+    }
+
+    @DeleteMapping("/user/{id}")
+    fun deleteUser(@PathVariable id: Int): ResponseEntity<Void> {
+        service.deleteUser(id)
+        return ResponseEntity.noContent().build()
+    }
+
+    @GetMapping("/user")
+    fun getAllUser(): ResponseEntity<List<User>> {
+        val list: List<User> = service.getAllUser()
+        return ResponseEntity.ok().body(list)
     }
 }

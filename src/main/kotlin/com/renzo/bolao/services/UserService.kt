@@ -24,4 +24,13 @@ class UserService @Autowired constructor(private val repo: UserRepository) {
         getUser(obj.id!!)
         return repo.save(obj)
     }
+
+    fun deleteUser(id: Int) {
+        getUser(id)
+        repo.deleteById(id)
+    }
+
+    fun getAllUser(): List<User> {
+        return repo.findAll()
+    }
 }

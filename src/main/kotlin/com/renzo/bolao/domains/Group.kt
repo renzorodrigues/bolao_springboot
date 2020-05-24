@@ -9,7 +9,7 @@ import javax.persistence.*
 data class Group(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int?,
+        var id: Int?,
         val name: String
 ) {
     @ManyToMany()
