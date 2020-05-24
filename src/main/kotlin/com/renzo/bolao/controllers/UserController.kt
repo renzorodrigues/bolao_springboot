@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
-import org.springframework.web.util.UriComponentsBuilder
 import java.net.URI
 
 @RestController
 class UserController @Autowired constructor(private val service: UserService) {
 
     @GetMapping("/user/{id}")
-    fun getUser(@PathVariable id: Int): ResponseEntity<Any> {
+    fun getUser(@PathVariable id: Int): ResponseEntity<User> {
         val obj: User = service.getUser(id)
         return ResponseEntity.ok().body(obj)
     }
@@ -23,5 +22,12 @@ class UserController @Autowired constructor(private val service: UserService) {
         val obj = service.insertUser(obj)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.id).toUri()
         return ResponseEntity.created(uri).build()
+    }
+
+    @PutMapping("/user/{id}")
+    fun updateUser(@RequestBody obj: User, @PathVariable id: Int): ResponseEntity<Void> {
+        obj.id = id
+        val obj = service.updateUser(obj)
+        return ResponseEntity.noContent().build()
     }
 }
