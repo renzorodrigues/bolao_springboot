@@ -12,7 +12,6 @@ data class Group(
         val id: Int?,
         val name: String
 ) {
-    @JsonManagedReference
     @ManyToMany()
     @JoinTable(name = "tgroup_tuser",
             joinColumns = [JoinColumn(name = "group_id")],
