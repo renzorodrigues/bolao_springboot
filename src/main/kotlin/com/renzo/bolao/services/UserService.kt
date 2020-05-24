@@ -4,6 +4,9 @@ import com.renzo.bolao.domains.User
 import com.renzo.bolao.repositories.UserRepository
 import com.renzo.bolao.services.exceptions.ObjectNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -32,5 +35,10 @@ class UserService @Autowired constructor(private val repo: UserRepository) {
 
     fun getAllUser(): List<User> {
         return repo.findAll()
+    }
+
+    fun getUserPage(page: Int, linesPerPage: Int, direction: String, orderBy: String): Page<User> {
+        val pageRequest: PageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy)
+        return repo.findAll(pageRequest)
     }
 }

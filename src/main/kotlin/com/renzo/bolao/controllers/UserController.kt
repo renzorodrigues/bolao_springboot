@@ -3,6 +3,7 @@ package com.renzo.bolao.controllers
 import com.renzo.bolao.domains.User
 import com.renzo.bolao.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -40,6 +41,17 @@ class UserController @Autowired constructor(private val service: UserService) {
     @GetMapping("/user")
     fun getAllUser(): ResponseEntity<List<User>> {
         val list: List<User> = service.getAllUser()
+        return ResponseEntity.ok().body(list)
+    }
+
+    @GetMapping("/user/page")
+    fun getUserPage(
+            @RequestParam(value = "page", defaultValue = "0") page: Int,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") linesPerPage: Int,
+            @RequestParam(value = "orderBy", defaultValue = "name") orderBy: String,
+            @RequestParam(value = "direction", defaultValue = "ASC") direction: String
+    ): ResponseEntity<Page<User>> {
+        val list: Page<User> = service.getUserPage(page, linesPerPage, direction, orderBy)
         return ResponseEntity.ok().body(list)
     }
 }
