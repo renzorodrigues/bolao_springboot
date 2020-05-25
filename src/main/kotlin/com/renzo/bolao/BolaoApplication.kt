@@ -1,9 +1,9 @@
 package com.renzo.bolao
 
 import com.renzo.bolao.domains.Group
-import com.renzo.bolao.domains.User
+import com.renzo.bolao.domains.Member
 import com.renzo.bolao.repositories.GroupRepository
-import com.renzo.bolao.repositories.UserRepository
+import com.renzo.bolao.repositories.MemberRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -11,22 +11,22 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class BolaoApplication @Autowired constructor(
-		private val repoUser: UserRepository,
+		private val repoMember: MemberRepository,
 		private val repoGroup: GroupRepository
 ): CommandLineRunner {
 	override fun run(vararg args: String?) {
 
-		val group1: Group = Group(null, "Grupo do bolão")
-		val group2: Group = Group(null, "Grupo dos sortudos")
+		val member1: Member = Member(null, "Renzo", "renzo@mail.com")
+		val member2: Member = Member(null, "Julianna", "ju@mail.com")
+		val member3: Member = Member(null, "Pedro", "pedro@mail.com")
 
-		val user1: User = User(null, "Renzo", "renzo@mail.com")
-		val user2: User = User(null, "Julianna", "ju@mail.com")
-		val user3: User = User(null, "Pedro", "pedro@mail.com")
+		val group1: Group = Group(null, "Grupo do bolão", 10, member1)
+		val group2: Group = Group(null, "Grupo dos sortudos", 5, member1)
 
-		group1.users = listOf<User>(user1, user2, user3)
-		group2.users = listOf<User>(user1, user3)
+		group1.members = listOf<Member>(member1, member2, member3)
+		group2.members = listOf<Member>(member1, member3)
 
-		repoUser.saveAll(listOf(user1, user2, user3))
+		repoMember.saveAll(listOf(member1, member2, member3))
 		repoGroup.saveAll(listOf(group1, group2))
 
 	}

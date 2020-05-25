@@ -1,7 +1,6 @@
 package com.renzo.bolao.controllers
 
 import com.renzo.bolao.domains.Group
-import com.renzo.bolao.domains.User
 import com.renzo.bolao.dto.GroupDTO
 import com.renzo.bolao.services.GroupService
 import org.springframework.beans.factory.annotation.Autowired

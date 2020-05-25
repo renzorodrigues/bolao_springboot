@@ -1,13 +1,11 @@
 package com.renzo.bolao.domains
 
-import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence.*
 
 @Entity
-@Table(name = "tuser")
-data class User(
+@Table(name = "tmember")
+data class Member(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int?,
@@ -15,6 +13,6 @@ data class User(
         val email: String
 ) {
     @JsonIgnore
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "members")
     var groups: List<Group> = mutableListOf<Group>()
 }

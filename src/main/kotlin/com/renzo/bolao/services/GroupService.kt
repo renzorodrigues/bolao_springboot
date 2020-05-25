@@ -1,7 +1,6 @@
 package com.renzo.bolao.services
 
 import com.renzo.bolao.domains.Group
-import com.renzo.bolao.domains.User
 import com.renzo.bolao.repositories.GroupRepository
 import com.renzo.bolao.services.exceptions.ObjectNotFoundException
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,7 +1,5 @@
 package com.renzo.bolao.domains
 
-import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence.*
 
 @Entity
@@ -10,11 +8,15 @@ data class Group(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int?,
-        val name: String
+        val name: String,
+        val limitOfMembers: Int,
+
+        @ManyToOne
+        val creatorMember: Member
 ) {
     @ManyToMany()
-    @JoinTable(name = "tgroup_tuser",
+    @JoinTable(name = "tgroup_tmember",
             joinColumns = [JoinColumn(name = "group_id")],
-            inverseJoinColumns = [JoinColumn(name = "user_id")])
-    var users: List<User> = mutableListOf<User>()
+            inverseJoinColumns = [JoinColumn(name = "member_id")])
+    var members: List<Member> = mutableListOf<Member>()
 }
