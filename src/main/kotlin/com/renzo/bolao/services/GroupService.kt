@@ -10,27 +10,27 @@ import java.util.*
 @Service
 class GroupService @Autowired constructor(private val repo: GroupRepository) {
 
-    fun getGroup(id: Int): Group {
+    fun getOne(id: Int): Group {
         val obj: Optional<Group> = repo.findById(id)
         return obj.orElseThrow { ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Group::class.simpleName as String) }
     }
 
-    fun insertGroup(obj: Group): Group {
+    fun insert(obj: Group): Group {
         obj.id = null
         return repo.save(obj)
     }
 
-    fun updateGroup(obj: Group): Group {
-        getGroup(obj.id!!)
+    fun update(obj: Group): Group {
+        getOne(obj.id!!)
         return repo.save(obj)
     }
 
-    fun deleteGroup(id: Int) {
-        getGroup(id)
+    fun delete(id: Int) {
+        getOne(id)
         repo.deleteById(id)
     }
 
-    fun getAllGroup(): List<Group> {
+    fun getAll(): List<Group> {
         return repo.findAll()
     }
 }

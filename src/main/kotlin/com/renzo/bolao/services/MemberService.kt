@@ -13,31 +13,31 @@ import java.util.*
 @Service
 class MemberService @Autowired constructor(private val repo: MemberRepository) {
 
-    fun getMember(id: Int): Member {
+    fun getOne(id: Int): Member {
         val obj: Optional<Member> = repo.findById(id)
         return obj.orElseThrow { ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Member::class.simpleName as String) }
     }
 
-    fun insertMember(obj: Member): Member {
+    fun insert(obj: Member): Member {
         obj.id = null
         return repo.save(obj)
     }
 
-    fun updateMember(obj: Member): Member {
-        getMember(obj.id!!)
+    fun update(obj: Member): Member {
+        getOne(obj.id!!)
         return repo.save(obj)
     }
 
-    fun deleteMember(id: Int) {
-        getMember(id)
+    fun delete(id: Int) {
+        getOne(id)
         repo.deleteById(id)
     }
 
-    fun getAllMembers(): List<Member> {
+    fun getAll(): List<Member> {
         return repo.findAll()
     }
 
-    fun getMemberPage(page: Int, linesPerPage: Int, direction: String, orderBy: String): Page<Member> {
+    fun getPage(page: Int, linesPerPage: Int, direction: String, orderBy: String): Page<Member> {
         val pageRequest: PageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy)
         return repo.findAll(pageRequest)
     }

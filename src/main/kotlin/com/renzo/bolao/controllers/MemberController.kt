@@ -13,45 +13,45 @@ import java.net.URI
 class MemberController @Autowired constructor(private val service: MemberService) {
 
     @GetMapping("/member/{id}")
-    fun getMember(@PathVariable id: Int): ResponseEntity<Member> {
-        val obj: Member = service.getMember(id)
+    fun getOne(@PathVariable id: Int): ResponseEntity<Member> {
+        val obj: Member = service.getOne(id)
         return ResponseEntity.ok().body(obj)
     }
 
     @PostMapping("/member")
-    fun insertMember(@RequestBody obj: Member): ResponseEntity<Void> {
-        val obj = service.insertMember(obj)
+    fun insert(@RequestBody obj: Member): ResponseEntity<Void> {
+        val obj = service.insert(obj)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.id).toUri()
         return ResponseEntity.created(uri).build()
     }
 
     @PutMapping("/member/{id}")
-    fun updateMember(@RequestBody obj: Member, @PathVariable id: Int): ResponseEntity<Void> {
+    fun update(@RequestBody obj: Member, @PathVariable id: Int): ResponseEntity<Void> {
         obj.id = id
-        val obj = service.updateMember(obj)
+        val obj = service.update(obj)
         return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping("/member/{id}")
-    fun deleteMember(@PathVariable id: Int): ResponseEntity<Void> {
-        service.deleteMember(id)
+    fun delete(@PathVariable id: Int): ResponseEntity<Void> {
+        service.delete(id)
         return ResponseEntity.noContent().build()
     }
 
     @GetMapping("/member")
-    fun getAllMember(): ResponseEntity<List<Member>> {
-        val list: List<Member> = service.getAllMembers()
+    fun getAll(): ResponseEntity<List<Member>> {
+        val list: List<Member> = service.getAll()
         return ResponseEntity.ok().body(list)
     }
 
     @GetMapping("/member/page")
-    fun getMemberPage(
+    fun getPage(
             @RequestParam(value = "page", defaultValue = "0") page: Int,
             @RequestParam(value = "linesPerPage", defaultValue = "24") linesPerPage: Int,
             @RequestParam(value = "orderBy", defaultValue = "name") orderBy: String,
             @RequestParam(value = "direction", defaultValue = "ASC") direction: String
     ): ResponseEntity<Page<Member>> {
-        val list: Page<Member> = service.getMemberPage(page, linesPerPage, direction, orderBy)
+        val list: Page<Member> = service.getPage(page, linesPerPage, direction, orderBy)
         return ResponseEntity.ok().body(list)
     }
 }

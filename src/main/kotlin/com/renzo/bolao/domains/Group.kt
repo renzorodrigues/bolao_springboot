@@ -12,7 +12,10 @@ data class Group(
         val limitOfMembers: Int,
 
         @ManyToOne
-        val creatorMember: Member
+        val creatorMember: Member,
+
+        @ManyToOne
+        val pool: Pool
 ) {
     @ManyToMany()
     @JoinTable(name = "tgroup_tmember",

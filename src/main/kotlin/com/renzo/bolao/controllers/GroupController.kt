@@ -13,34 +13,34 @@ import java.net.URI
 class GroupController @Autowired constructor(private val service: GroupService) {
 
     @GetMapping("/group/{id}")
-    fun getGroup(@PathVariable id: Int): ResponseEntity<Group> {
-        val obj: Group = service.getGroup(id)
+    fun getOne(@PathVariable id: Int): ResponseEntity<Group> {
+        val obj: Group = service.getOne(id)
         return ResponseEntity.ok().body(obj)
     }
 
     @PostMapping("/group/")
-    fun insertGroup(@RequestBody obj: Group): ResponseEntity<Void> {
-        val obj = service.insertGroup(obj)
+    fun insert(@RequestBody obj: Group): ResponseEntity<Void> {
+        val obj = service.insert(obj)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.id).toUri()
         return ResponseEntity.created(uri).build()
     }
 
     @PutMapping("/group/{id}")
-    fun updateGroup(@RequestBody obj: Group, @PathVariable id: Int): ResponseEntity<Void> {
+    fun update(@RequestBody obj: Group, @PathVariable id: Int): ResponseEntity<Void> {
         obj.id = id
-        val obj = service.updateGroup(obj)
+        val obj = service.update(obj)
         return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping("/group/{id}")
-    fun deleteGroup(@PathVariable id: Int): ResponseEntity<Void> {
-        service.deleteGroup(id)
+    fun delete(@PathVariable id: Int): ResponseEntity<Void> {
+        service.delete(id)
         return ResponseEntity.noContent().build()
     }
 
     @GetMapping("/group")
-    fun getAllGroup(): ResponseEntity<List<GroupDTO>> {
-        val list: List<Group> = service.getAllGroup()
+    fun getAll(): ResponseEntity<List<GroupDTO>> {
+        val list: List<Group> = service.getAll()
         val listDto: List<GroupDTO> = list.map { obj -> GroupDTO(obj) }
         return ResponseEntity.ok().body(listDto)
     }
