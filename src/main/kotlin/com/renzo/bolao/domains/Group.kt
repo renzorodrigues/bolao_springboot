@@ -1,6 +1,10 @@
 package com.renzo.bolao.domains
 
+import org.hibernate.annotations.GenericGenerator
+import org.hibernate.validator.constraints.Length
 import javax.persistence.*
+import javax.validation.Valid
+import javax.validation.constraints.NotEmpty
 
 @Entity
 @Table(name = "tgroup")
@@ -8,14 +12,14 @@ data class Group(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int?,
-        val name: String,
-        val limitOfMembers: Int,
+        var name: String,
+        var limitOfMembers: Int,
 
         @ManyToOne
-        val creatorMember: Member,
+        var creatorMember: Member?,
 
         @ManyToOne
-        val pool: Pool
+        val pool: Pool?
 ) {
     @ManyToMany()
     @JoinTable(name = "tgroup_tmember",

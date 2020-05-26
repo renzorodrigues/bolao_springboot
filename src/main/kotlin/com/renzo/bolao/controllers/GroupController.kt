@@ -8,39 +8,42 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
+import javax.validation.Valid
 
 @RestController
-class GroupController @Autowired constructor(private val service: GroupService) {
+class GroupController @Autowired constructor(private val serv: GroupService) {
 
     @GetMapping("/group/{id}")
     fun getOne(@PathVariable id: Int): ResponseEntity<Group> {
-        val obj: Group = service.getOne(id)
+        val obj: Group = serv.getOne(id)
         return ResponseEntity.ok().body(obj)
     }
 
     @PostMapping("/group/")
-    fun insert(@RequestBody obj: Group): ResponseEntity<Void> {
-        val obj = service.insert(obj)
-        val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.id).toUri()
+    fun insert(@RequestBody objDto: GroupDTO): ResponseEntity<Void> {
+        val obj: Group = serv.fromDTO(objDto)
+        val objSaved = serv.insert(obj)
+        val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objSaved.id).toUri()
         return ResponseEntity.created(uri).build()
     }
 
     @PutMapping("/group/{id}")
-    fun update(@RequestBody obj: Group, @PathVariable id: Int): ResponseEntity<Void> {
+    fun update(@Valid @RequestBody objDto: GroupDTO, @PathVariable id: Int): ResponseEntity<Void> {
+        val obj: Group = serv.fromDTO(objDto)
         obj.id = id
-        val obj = service.update(obj)
+        serv.update(obj)
         return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping("/group/{id}")
     fun delete(@PathVariable id: Int): ResponseEntity<Void> {
-        service.delete(id)
+        serv.delete(id)
         return ResponseEntity.noContent().build()
     }
 
     @GetMapping("/group")
     fun getAll(): ResponseEntity<List<GroupDTO>> {
-        val list: List<Group> = service.getAll()
+        val list: List<Group> = serv.getAll()
         val listDto: List<GroupDTO> = list.map { obj -> GroupDTO(obj) }
         return ResponseEntity.ok().body(listDto)
     }

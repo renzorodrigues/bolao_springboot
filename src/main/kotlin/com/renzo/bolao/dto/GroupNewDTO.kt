@@ -3,7 +3,7 @@ package com.renzo.bolao.dto
 import com.renzo.bolao.domains.Group
 import javax.validation.constraints.NotEmpty
 
-data class GroupDTO(
+data class GroupNewDTO(
         val id: Int?,
         @field:NotEmpty(message = "Preenchimento obrigatório")
         val name: String,

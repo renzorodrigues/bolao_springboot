@@ -10,17 +10,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
 
 @RestController
-class MemberController @Autowired constructor(private val service: MemberService) {
+class MemberController @Autowired constructor(private val serv: MemberService) {
 
     @GetMapping("/member/{id}")
     fun getOne(@PathVariable id: Int): ResponseEntity<Member> {
-        val obj: Member = service.getOne(id)
+        val obj: Member = serv.getOne(id)
         return ResponseEntity.ok().body(obj)
     }
 
     @PostMapping("/member")
     fun insert(@RequestBody obj: Member): ResponseEntity<Void> {
-        val obj = service.insert(obj)
+        val obj = serv.insert(obj)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.id).toUri()
         return ResponseEntity.created(uri).build()
     }
@@ -28,19 +28,19 @@ class MemberController @Autowired constructor(private val service: MemberService
     @PutMapping("/member/{id}")
     fun update(@RequestBody obj: Member, @PathVariable id: Int): ResponseEntity<Void> {
         obj.id = id
-        val obj = service.update(obj)
+        val obj = serv.update(obj)
         return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping("/member/{id}")
     fun delete(@PathVariable id: Int): ResponseEntity<Void> {
-        service.delete(id)
+        serv.delete(id)
         return ResponseEntity.noContent().build()
     }
 
     @GetMapping("/member")
     fun getAll(): ResponseEntity<List<Member>> {
-        val list: List<Member> = service.getAll()
+        val list: List<Member> = serv.getAll()
         return ResponseEntity.ok().body(list)
     }
 
@@ -51,7 +51,7 @@ class MemberController @Autowired constructor(private val service: MemberService
             @RequestParam(value = "orderBy", defaultValue = "name") orderBy: String,
             @RequestParam(value = "direction", defaultValue = "ASC") direction: String
     ): ResponseEntity<Page<Member>> {
-        val list: Page<Member> = service.getPage(page, linesPerPage, direction, orderBy)
+        val list: Page<Member> = serv.getPage(page, linesPerPage, direction, orderBy)
         return ResponseEntity.ok().body(list)
     }
 }

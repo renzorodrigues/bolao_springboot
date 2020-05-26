@@ -41,4 +41,8 @@ class MemberService @Autowired constructor(private val repo: MemberRepository) {
         val pageRequest: PageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy)
         return repo.findAll(pageRequest)
     }
+
+    fun toMember(id: Int?): Member? {
+        return if (id != null) getOne(id) else null
+    }
 }
